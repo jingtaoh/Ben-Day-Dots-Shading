@@ -3,13 +3,14 @@ My attempt to achieve ben-day dots effect in comic book.
 
 |  | Yellow | Magenta | Cyan | Black |
 | --- | --- | --- | --- | --- |
-| Single | ![yellow single pass](images/yellow-s.png) | ![magenta single pass](images/magenta-s.png) | ![cyan single pass](images/cyan-s.png) | ![black single pass](images/black.png) |
-|Addtive | ![yellow single pass](images/yellow-s.png) | ![magenta single pass](images/magenta-a.png) | ![cyan single pass](images/cyan-a.png) | ![black single pass](images/black-a.png) |
-
-
+| Single | ![yellow single pass](images/yellow-s.jpg) | ![magenta single pass](images/magenta-s.jpg) | ![cyan single pass](images/cyan-s.jpg) | ![black single pass](images/black-s.jpg) |
+|Addtive | ![yellow single pass](images/yellow-s.jpg) | ![magenta single pass](images/magenta-a.jpg) | ![cyan single pass](images/cyan-a.jpg) | ![black single pass](images/black-a.jpg) |
 
 ## TODOs
-- [ ] Paper noise texture
+- [x] [Paper texture](shaders/paper.glsl)
+
+![yellow](images/blend-paper.png)
+
 - [ ] CMYK
 - [ ] CNYK With dots
 - [ ] Edges 
