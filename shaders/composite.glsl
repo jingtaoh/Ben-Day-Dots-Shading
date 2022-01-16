@@ -6,7 +6,7 @@ const vec3 R = vec3(0.929, 0., 0.549);
 const vec3 Y = vec3(0.996, 0.949, 0.);
 const vec3 W = vec3(1.);
 
-const float DOT_SIZE = 0.0025;
+const float DOT_SIZE = 0.00125;
 
 float sdCircle(vec2 uv, float r, vec2 offset) {
   float x = uv.x - offset.x;
@@ -59,19 +59,19 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
       fragCoord / iResolution.xy; // Normalized pixel coordinates (from 0 to 1)
 
   // light colors
-  vec3 y2 = drawDots(uv, Y, DOT_SIZE, vec2(0.008), 75.);
-  vec3 b2 = drawDots(uv, B, DOT_SIZE, vec2(0.008), 45.);
-  vec3 r2 = drawDots(uv, R, DOT_SIZE, vec2(0.008), 105.);
+  vec3 y2 = drawDots(uv, Y, DOT_SIZE, vec2(0.004), 75.);
+  vec3 b2 = drawDots(uv, B, DOT_SIZE, vec2(0.004), 45.);
+  vec3 r2 = drawDots(uv, R, DOT_SIZE, vec2(0.004), 105.);
 
   // dark colors
-  vec3 y3 = drawLines(uv, Y, DOT_SIZE, vec2(0.004, 0.008), 75.);
-  vec3 b3 = drawLines(uv, B, DOT_SIZE, vec2(0.004, 0.008), 45.);
-  vec3 r3 = drawLines(uv, R, DOT_SIZE, vec2(0.004, 0.008), 105.);
+  vec3 y3 = drawLines(uv, Y, DOT_SIZE, vec2(0.002, 0.004), 75.);
+  vec3 b3 = drawLines(uv, B, DOT_SIZE, vec2(0.002, 0.004), 45.);
+  vec3 r3 = drawLines(uv, R, DOT_SIZE, vec2(0.002, 0.004), 105.);
 
   // solid solors
-  vec3 y = drawSolid(uv, Y, DOT_SIZE, 0.004, 75.);
-  vec3 b = drawSolid(uv, B, DOT_SIZE, 0.004, 45.);
-  vec3 r = drawSolid(uv, R, DOT_SIZE, 0.004, 105.);
+  vec3 y = drawSolid(uv, Y, DOT_SIZE, 0.002, 75.);
+  vec3 b = drawSolid(uv, B, DOT_SIZE, 0.002, 45.);
+  vec3 r = drawSolid(uv, R, DOT_SIZE, 0.002, 105.);
 
   vec3 col = texture(iChannel0, uv).rgb;
   vec4 cmyk = RGBtoCMYK(col);
