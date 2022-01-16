@@ -24,7 +24,12 @@ My attempt to achieve ben-day dots effect in comic book.
 | Progressive | ![yellow single pass](images/spider-man/yellow.png) | ![magenta single pass](images/spider-man/magenta-p.png) | ![cyan single pass](images/spider-man/cyan-p.png) | ![black single pass](images/spider-man/black-p.png) |
 
 
-- [ ] CMYK with dots
+- [x] CMYK with dots
+
+![color board](images/screens/color_board.png)
+
+- [x] Composition
+
 
 ## References
 1. [BEN DAY DOTS Series](https://legionofandy.com/2013/06/03/roy-lichtenstein-the-man-who-didnt-paint-benday-dots/)
