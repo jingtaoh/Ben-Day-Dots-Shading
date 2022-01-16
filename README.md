@@ -9,7 +9,10 @@ My attempt to achieve ben-day dots effect in comic book.
 ## TODOs
 - [x] [Paper texture](shaders/paper.glsl)
 
-![yellow](images/super-man/blend-paper.png)
+| Before | After |
+| :---: | :---: |
+| ![Before](images/super-man/black-p.png) | ![After](images/super-man/blend-paper.png) |
+
 
 - [x] CMYK color separation
 ### comparison
@@ -22,7 +25,6 @@ My attempt to achieve ben-day dots effect in comic book.
 | :---: | :---: | :---: | :---: | :---: |
 | Single | ![yellow single pass](images/spider-man/yellow.png) | ![magenta single pass](images/spider-man/magenta.png) | ![cyan single pass](images/spider-man/cyan.png) | ![black single pass](images/spider-man/black.png) |
 | Progressive | ![yellow single pass](images/spider-man/yellow.png) | ![magenta single pass](images/spider-man/magenta-p.png) | ![cyan single pass](images/spider-man/cyan-p.png) | ![black single pass](images/spider-man/black-p.png) |
-
 
 - [x] CMYK with dots
 
