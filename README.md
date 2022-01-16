@@ -41,6 +41,7 @@ My attempt to achieve ben-day dots effect in comic book.
 - [] Polish thoughts
   - better flat shading
   - adjust dot size and space
+  - grey shade?
 
 ## References
 1. [BEN DAY DOTS Series](https://legionofandy.com/2013/06/03/roy-lichtenstein-the-man-who-didnt-paint-benday-dots/)
