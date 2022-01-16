@@ -36,7 +36,9 @@ My attempt to achieve ben-day dots effect in comic book.
 | :---: | :---: |
 | ![Before](images/spider-man/spider-man.png) | ![After](images/spider-man/spider-man-dots.png)|
 
-- [] Polish
+- [] Polish thoughts
+  - better flat shading
+  - adjust dot size and space
 
 ## References
 1. [BEN DAY DOTS Series](https://legionofandy.com/2013/06/03/roy-lichtenstein-the-man-who-didnt-paint-benday-dots/)
