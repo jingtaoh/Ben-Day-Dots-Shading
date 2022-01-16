@@ -1,7 +1,7 @@
-#iChannel0 "images/yellow-s.jpg"
-#iChannel1 "images/magenta-s.jpg"
-#iChannel2 "images/cyan-s.jpg"
-#iChannel3 "images/black-s.jpg"
+#iChannel0 "images/super-man/yellow.png"
+#iChannel1 "images/super-man/magenta.png"
+#iChannel2 "images/super-man/cyan.png"
+#iChannel3 "images/super-man/black.png"
 
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
   vec2 uv =
