@@ -15,7 +15,7 @@ My attempt to achieve ben-day dots effect in comic book.
 ### comparison
 | Before | After |
 | :---: | :---: |
-| ![Before](images/spider-man/spider-man.png) | ![After](images/spider-man/black-p.png) |
+| ![Before](images/spider-man/spider-man.png) | ![After](images/spider-man/spider-man-paper.png) |
 
 ### progressive
 | | Yellow | Magenta | Cyan | Black |
