@@ -12,7 +12,7 @@ My attempt to achieve ben-day dots effect in comic book.
 ![yellow](images/blend-paper.png)
 
 - [ ] CMYK
-- [ ] CNYK With dots
+- [ ] CMYK With dots
 - [ ] Edges 
 
 ## References
