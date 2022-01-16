@@ -38,7 +38,7 @@ My attempt to achieve ben-day dots effect in comic book.
 | ![Before](images/spider-man/spider-man-paper.png)  | ![After](images/spider-man/spider-man-dots.png)|
 
 ## TODOs
-- [] Polish thoughts
+- [ ] Polish thoughts
   - better flat shading
   - adjust dot size and space
   - grey shade?
