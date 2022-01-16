@@ -1,5 +1,5 @@
 #iChannel0 "images/paper.jpeg"
-#iChannel1 "images/black-p.png"
+#iChannel1 "images/spider-man/black-p.png"
 
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
   vec2 uv =
