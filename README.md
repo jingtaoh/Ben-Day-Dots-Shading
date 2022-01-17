@@ -59,7 +59,7 @@ The results is shown below:
 
 By vertically and horizontally repeating dots (small circles) and varying their spacing we can approximate the [shade (called screen)](shaders/screen.glsl) that we want:
 
-|<img src="images/screens/color_board.png" alt="Color board" width="600">|
+|![Color board](images/screens/color_board.png)|
 |:---:|
 | *Color Board: approximate shade using dots followed by actual shade for each color, 3 shades for each* |
 
