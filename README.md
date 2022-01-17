@@ -33,11 +33,13 @@ Here is where the magic of Ben Day Dots comes in, by printing patterns of variou
 
 ### Flat Shade
 
+First, We have an image from [PlayStation](https://www.playstation.com/en-us/games/marvels-spider-man/) in hand to start.
+
 |<img src="images/spider-man/spider-man.png" alt="Spider Man" width="800">|
 |:---:|
 |*(Image credit: © [PlayStation](https://www.playstation.com/en-us/games/marvels-spider-man/))*|
 
-First, We have an image in hand to start. To shade it with Ben Day Dots later, we need to decide which part of the image need to be included for each pass, therefore the first step of the program need to separate the CMYK components of the image, which they will call [color separation](shaders/separate.glsl). The basic idea is to convert RGB space to CMYK space then based on the color of each channel, we divide the continuous value into 3 discrete shades (light, dark, and solid). 
+To shade it with Ben Day Dots later, we need to decide which part of the image need to be included for each pass, therefore the first step of the program need to separate the CMYK components of the image, which they will call [color separation](shaders/separate.glsl). The basic idea is to convert RGB space to CMYK space then based on the color of each channel, we divide the continuous value into 3 discrete shades (light, dark, and solid). 
 
 | | Yellow | Magenta | Cyan | Black | Outline |
 | :---: | :---: | :---: | :---: | :---: | :---: |
