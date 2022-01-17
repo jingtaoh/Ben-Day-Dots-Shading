@@ -95,7 +95,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
   // Black: divide cyan into 4 levels + outline
   vec3 col_k = mix(mix(W, k2, step(0.4, cmyk.a)), mix(k3, k, step(0.8, cmyk.a)),
                    step(0.6, cmyk.a));
-  col_k *= outline(fragCoord, iChannel0);
+  col_k = outline(fragCoord, iChannel0);
 
   // Blue: divide cyan into 4 levels
   vec3 col_b = mix(mix(W, b2, step(0.15, cmyk.r)),
@@ -110,6 +110,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
                    mix(y3, y, step(0.6, cmyk.b)), step(0.44, cmyk.b));
   // Blend
   col = col_y * col_r * col_b * col_k * texture(iChannel1, uv).rgb;
+  col = col_y;
 
   fragColor = vec4(col, 1.);
 }
