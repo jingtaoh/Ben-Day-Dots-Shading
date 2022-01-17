@@ -12,6 +12,10 @@ const vec3 Y = vec3(0.996, 0.949, 0.);
 const vec3 Y3 = vec3(1., 0.969, 0.604);
 const vec3 Y2 = vec3(1., 0.984, 0.8);
 
+const vec3 K = vec3(0.);
+const vec3 K3 = vec3(0.6);
+const vec3 K2 = vec3(0.8);
+
 const vec3 W = vec3(1.);
 
 vec4 RGBtoCMYK(vec3 rgb) {
@@ -20,9 +24,21 @@ vec4 RGBtoCMYK(vec3 rgb) {
               (1.0 - rgb.b - K) / (1.0 - K), K);
 }
 
-vec3 CMYKtoRGB(vec4 cmyk) {
-  return vec3((1.0 - cmyk.x) * (1.0 - cmyk.w), (1.0 - cmyk.y) * (1.0 - cmyk.w),
-              (1.0 - cmyk.z) * (1.0 - cmyk.w));
+vec3 outline(vec2 fragCoord, sampler2D tex) {
+  vec4 n = texture(tex, (fragCoord + vec2(0, 1)) / iResolution.xy);
+  vec4 e = texture(tex, (fragCoord + vec2(1, 0)) / iResolution.xy);
+  vec4 s = texture(tex, (fragCoord + vec2(0, -1)) / iResolution.xy);
+  vec4 w = texture(tex, (fragCoord + vec2(-1, 0)) / iResolution.xy);
+
+  vec4 dy = (n - s) * .5;
+  vec4 dx = (e - w) * .5;
+
+  vec4 edge = sqrt(dx * dx + dy * dy);
+
+  vec3 col = step(0.1, edge.rgb);
+
+  // set black if any of the channle have value
+  return (1. - step(0.1, length(col))) * W;
 }
 
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
@@ -32,20 +48,22 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
   vec3 col = texture(iChannel0, uv).rgb;
   vec4 cmyk = RGBtoCMYK(col);
 
-  // Black: use negative
-  vec3 col_k = CMYKtoRGB(vec4(vec3(0.), 1. - step(0.3, 1. - cmyk.a)));
+  // Black: divide cyan into 4 levels + outline
+  vec3 col_k = mix(mix(W, K2, step(0.4, cmyk.a)), mix(K3, K, step(0.8, cmyk.a)),
+              step(0.6, cmyk.a));
+  col_k *= outline(fragCoord, iChannel0);
 
   // Blue: divide cyan into 4 levels
-  vec3 col_b = mix(mix(B, B3, step(cmyk.r, 0.6)),
-                   mix(B2, W, step(cmyk.r, 0.15)), step(cmyk.r, 0.3));
+  vec3 col_b = mix(mix(W, B2, step(0.15, cmyk.r)),
+                   mix(B3, B, step(0.6, cmyk.r)), step(0.3, cmyk.r));
 
   // Red: divide magenta into 4 levels
-  vec3 col_r = mix(mix(R, R3, step(cmyk.g, 0.6)),
-                   mix(R2, W, step(cmyk.g, 0.22)), step(cmyk.g, 0.44));
+  vec3 col_r = mix(mix(W, R2, step(0.22, cmyk.g)),
+                   mix(R3, R, step(0.6, cmyk.g)), step(0.44, cmyk.g));
 
   // Yellow: divide yellow into 4 levels
-  vec3 col_y = mix(mix(Y, Y3, step(cmyk.b, 0.6)),
-                   mix(Y2, W, step(cmyk.b, 0.22)), step(cmyk.b, 0.44));
+  vec3 col_y = mix(mix(W, Y2, step(0.22, cmyk.b)),
+                   mix(Y3, Y, step(0.6, cmyk.b)), step(0.44, cmyk.b));
 
   // Blend
   col = col_y * col_r * col_b * col_k;

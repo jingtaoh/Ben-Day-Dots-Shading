@@ -1,9 +1,10 @@
-#iChannel0 "images/spider-man/black-p.png"
+#iChannel0 "images/spider-man/spider-man.png"
 #iChannel1 "images/paper.jpeg"
 
 const vec3 B = vec3(0., 0.678, 0.937);
 const vec3 R = vec3(0.929, 0., 0.549);
 const vec3 Y = vec3(0.996, 0.949, 0.);
+const vec3 K = vec3(0.);
 const vec3 W = vec3(1.);
 
 const float DOT_SIZE = 0.00125;
@@ -27,7 +28,7 @@ vec2 rotate(vec2 uv, float th) {
 vec3 drawDots(vec2 uv, vec3 col, float size, vec2 space, float th) {
   vec2 new_uv = uv - 0.5;                    // <-0.5,0.5>
   new_uv.x *= iResolution.x / iResolution.y; // fix aspect ratio
-  new_uv = rotate(new_uv, th);
+  new_uv = rotate(new_uv, radians(180. - th));
 
   float res = opRepeat(new_uv, size, space);
   res = step(0., res); // Same as res > 0. ? 1. : 0.;
@@ -48,52 +49,67 @@ vec4 RGBtoCMYK(vec3 rgb) {
               (1.0 - rgb.b - K) / (1.0 - K), K);
 }
 
-vec3 CMYKtoRGB(vec4 cmyk) {
-  return vec3((1.0 - cmyk.x) * (1.0 - cmyk.w), (1.0 - cmyk.y) * (1.0 - cmyk.w),
-              (1.0 - cmyk.z) * (1.0 - cmyk.w));
+// Credit to https://www.shadertoy.com/view/td2yDm
+vec3 outline(vec2 fragCoord, sampler2D tex) {
+  vec4 n = texture(tex, (fragCoord + vec2(0, 1)) / iResolution.xy);
+  vec4 e = texture(tex, (fragCoord + vec2(1, 0)) / iResolution.xy);
+  vec4 s = texture(tex, (fragCoord + vec2(0, -1)) / iResolution.xy);
+  vec4 w = texture(tex, (fragCoord + vec2(-1, 0)) / iResolution.xy);
+
+  vec4 dy = (n - s) * .5;
+  vec4 dx = (e - w) * .5;
+
+  vec4 edge = sqrt(dx * dx + dy * dy);
+
+  vec3 col = step(0.1, edge.rgb);
+
+  // set to black if any of the channle have value
+  return (1. - step(0.1, length(col))) * W;
 }
 
-void mainImage(out vec4 fragColor, in vec2 fragCoord)
-{
+void mainImage(out vec4 fragColor, in vec2 fragCoord) {
   vec2 uv =
       fragCoord / iResolution.xy; // Normalized pixel coordinates (from 0 to 1)
 
   // light colors
-  vec3 y2 = drawDots(uv, Y, DOT_SIZE, vec2(0.004), 75.);
-  vec3 b2 = drawDots(uv, B, DOT_SIZE, vec2(0.004), 45.);
-  vec3 r2 = drawDots(uv, R, DOT_SIZE, vec2(0.004), 105.);
+  vec3 y2 = drawDots(uv, Y, DOT_SIZE, vec2(0.004), 105.);
+  vec3 b2 = drawDots(uv, B, DOT_SIZE, vec2(0.004), 135.);
+  vec3 r2 = drawDots(uv, R, DOT_SIZE, vec2(0.004), 75.);
+  vec3 k2 = drawDots(uv, K, DOT_SIZE, vec2(0.004), 45.);
 
   // dark colors
-  vec3 y3 = drawLines(uv, Y, DOT_SIZE, vec2(0.002, 0.004), 75.);
-  vec3 b3 = drawLines(uv, B, DOT_SIZE, vec2(0.002, 0.004), 45.);
-  vec3 r3 = drawLines(uv, R, DOT_SIZE, vec2(0.002, 0.004), 105.);
+  vec3 y3 = drawLines(uv, Y, DOT_SIZE, vec2(0.002, 0.004), 105.);
+  vec3 b3 = drawLines(uv, B, DOT_SIZE, vec2(0.002, 0.004), 135.);
+  vec3 r3 = drawLines(uv, R, DOT_SIZE, vec2(0.002, 0.004), 75.);
+  vec3 k3 = drawLines(uv, K, DOT_SIZE, vec2(0.002, 0.004), 45.);
 
-  // solid solors
-  vec3 y = drawSolid(uv, Y, DOT_SIZE, 0.002, 75.);
-  vec3 b = drawSolid(uv, B, DOT_SIZE, 0.002, 45.);
-  vec3 r = drawSolid(uv, R, DOT_SIZE, 0.002, 105.);
+  // solid colors
+  vec3 y = drawSolid(uv, Y, DOT_SIZE, 0.002, 105.);
+  vec3 b = drawSolid(uv, B, DOT_SIZE, 0.002, 135.);
+  vec3 r = drawSolid(uv, R, DOT_SIZE, 0.002, 75.);
+  vec3 k = drawSolid(uv, K, DOT_SIZE, 0.002, 45.);
 
   vec3 col = texture(iChannel0, uv).rgb;
   vec4 cmyk = RGBtoCMYK(col);
 
-  // Black: use negative
-  vec3 col_k = CMYKtoRGB(vec4(vec3(0.), 1. - step(0.3, 1. - cmyk.a)));
+  // Black: divide cyan into 4 levels + outline
+  vec3 col_k = mix(mix(W, k2, step(0.4, cmyk.a)), mix(k3, k, step(0.8, cmyk.a)),
+                   step(0.6, cmyk.a));
+  col_k *= outline(fragCoord, iChannel0);
 
   // Blue: divide cyan into 4 levels
-  vec3 col_b = mix(mix(b, b3, step(cmyk.r, 0.6)),
-                   mix(b2, W, step(cmyk.r, 0.15)), step(cmyk.r, 0.3));
+  vec3 col_b = mix(mix(W, b2, step(0.15, cmyk.r)),
+                   mix(b3, b, step(0.6, cmyk.r)), step(0.3, cmyk.r));
 
   // Red: divide magenta into 4 levels
-  vec3 col_r = mix(mix(r, r3, step(cmyk.g, 0.6)),
-                   mix(r2, W, step(cmyk.g, 0.22)), step(cmyk.g, 0.44));
+  vec3 col_r = mix(mix(W, r2, step(0.22, cmyk.g)),
+                   mix(r3, r, step(0.6, cmyk.g)), step(0.44, cmyk.g));
 
   // Yellow: divide yellow into 4 levels
-  vec3 col_y = mix(mix(y, y3, step(cmyk.b, 0.6)),
-                   mix(y2, W, step(cmyk.b, 0.22)), step(cmyk.b, 0.44));
-
+  vec3 col_y = mix(mix(W, y2, step(0.22, cmyk.b)),
+                   mix(y3, y, step(0.6, cmyk.b)), step(0.44, cmyk.b));
   // Blend
   col = col_y * col_r * col_b * col_k * texture(iChannel1, uv).rgb;
 
   fragColor = vec4(col, 1.);
 }
-

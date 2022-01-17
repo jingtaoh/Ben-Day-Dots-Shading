@@ -10,8 +10,11 @@ const vec3 Y = vec3(0.996, 0.949, 0.);
 const vec3 Y3 = vec3(1., 0.969, 0.604);
 const vec3 Y2 = vec3(1., 0.984, 0.8);
 
-const vec3 W = vec3(1.);
 const vec3 K = vec3(0.);
+const vec3 K3 = vec3(0.6);
+const vec3 K2 = vec3(0.8);
+
+const vec3 W = vec3(1.);
 
 const float DOT_SIZE = 0.00125;
 
@@ -34,7 +37,7 @@ vec2 rotate(vec2 uv, float th) {
 vec3 drawDots(vec2 uv, vec3 col, float size, vec2 space, float th) {
   vec2 new_uv = uv - 0.5;                    // <-0.5,0.5>
   new_uv.x *= iResolution.x / iResolution.y; // fix aspect ratio
-  new_uv = rotate(new_uv, th);
+  new_uv = rotate(new_uv, radians(180. - th));
 
   float res = opRepeat(new_uv, size, space);
   res = step(0., res); // Same as res > 0. ? 1. : 0.;
@@ -53,19 +56,22 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
   vec2 uv = fragCoord / iResolution.xy;
 
   // light colors
-  vec3 y2 = drawDots(uv, Y, DOT_SIZE, vec2(0.004), 75.);
-  vec3 b2 = drawDots(uv, B, DOT_SIZE, vec2(0.004), 45.);
-  vec3 r2 = drawDots(uv, R, DOT_SIZE, vec2(0.004), 105.);
+  vec3 y2 = drawDots(uv, Y, DOT_SIZE, vec2(0.004), 105.);
+  vec3 b2 = drawDots(uv, B, DOT_SIZE, vec2(0.004), 135.);
+  vec3 r2 = drawDots(uv, R, DOT_SIZE, vec2(0.004), 75.);
+  vec3 k2 = drawDots(uv, K, DOT_SIZE, vec2(0.004), 45.);
 
   // dark colors
-  vec3 y3 = drawLines(uv, Y, DOT_SIZE, vec2(0.002, 0.004), 75.);
-  vec3 b3 = drawLines(uv, B, DOT_SIZE, vec2(0.002, 0.004), 45.);
-  vec3 r3 = drawLines(uv, R, DOT_SIZE, vec2(0.002, 0.004), 105.);
+  vec3 y3 = drawLines(uv, Y, DOT_SIZE, vec2(0.002, 0.004), 105.);
+  vec3 b3 = drawLines(uv, B, DOT_SIZE, vec2(0.002, 0.004), 135.);
+  vec3 r3 = drawLines(uv, R, DOT_SIZE, vec2(0.002, 0.004), 75.);
+  vec3 k3 = drawLines(uv, K, DOT_SIZE, vec2(0.002, 0.004), 45.);
 
-  // solid solors
-  vec3 y = drawSolid(uv, Y, DOT_SIZE, 0.002, 75.);
-  vec3 b = drawSolid(uv, B, DOT_SIZE, 0.002, 45.);
-  vec3 r = drawSolid(uv, R, DOT_SIZE, 0.002, 105.);
+  // solid colors
+  vec3 y = drawSolid(uv, Y, DOT_SIZE, 0.002, 105.);
+  vec3 b = drawSolid(uv, B, DOT_SIZE, 0.002, 135.);
+  vec3 r = drawSolid(uv, R, DOT_SIZE, 0.002, 75.);
+  vec3 k = drawSolid(uv, K, DOT_SIZE, 0.002, 45.);
 
   // color board
   vec3 col_B = mix(B2, mix(B3, B, step(0.66, uv.x)), step(0.33, uv.x));
@@ -77,14 +83,22 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
   vec3 col_Y = mix(Y2, mix(Y3, Y, step(0.66, uv.x)), step(0.33, uv.x));
   vec3 col_y = mix(y2, mix(y3, y, step(0.66, uv.x)), step(0.33, uv.x));
 
-  vec3 col = mix(col_y,
-                 mix(col_Y,
-                     mix(col_r,
-                         mix(col_R, mix(col_b, col_B, step(0.825, uv.y)),
-                             step(0.66, uv.y)),
-                         step(0.495, uv.y)),
-                     step(0.33, uv.y)),
-                 step(0.165, uv.y));
+  vec3 col_K = mix(K2, mix(K3, K, step(0.66, uv.x)), step(0.33, uv.x));
+  vec3 col_k = mix(k2, mix(k3, k, step(0.66, uv.x)), step(0.33, uv.x));
+
+  vec3 col =
+      mix(col_k,
+          mix(col_K,
+              mix(col_y,
+                  mix(col_Y,
+                      mix(col_r,
+                          mix(col_R, mix(col_b, col_B, step(0.875, uv.y)),
+                              step(0.75, uv.y)),
+                          step(0.625, uv.y)),
+                      step(0.5, uv.y)),
+                  step(0.375, uv.y)),
+              step(0.25, uv.y)),
+          step(0.125, uv.y));
 
   fragColor = vec4(col, 1.);
 }
