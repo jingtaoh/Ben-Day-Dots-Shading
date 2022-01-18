@@ -63,11 +63,11 @@ One more step before the dots, by far each pass are in perfect alignment. In mos
 |:---:|
 |*(Image credit: © [Legion of Andy](https://legionofandy.com/))*|*(Image credit: © [Legion of Andy](https://legionofandy.com/))*|
 
-Thus, by offsetting the UV for each passes, in my case, keeping cyan and black fixed, moving yellow and magenta along the diagonal in the opposite direction, we have "perfect" alignment:
+Thus, by offsetting the UV for each passes, in my case, keeping cyan and black fixed, moving yellow and magenta along the diagonal in the opposite direction, we now have "perfect" alignment:
 
-| Flat Shade with Outline | Misregistration |
-| :---: | :---: |
- ![Flat Shade with outline](images/spider-man/outline-p.png) | ![Misregistration](images/spider-man/outline-p-offset.png)  |
+| Original | Flat Shade with Outline | Misregistration |
+| :---: | :---: | :---: |
+| ![Origianl](images/spider-man/spider-man.png) | ![Flat Shade with outline](images/spider-man/outline-p.png) | ![Misregistration](images/spider-man/outline-p-off.png)  |
 
 ### Shade with Ben-Day Dots
 
@@ -93,7 +93,7 @@ Without further ado, by replacing the flat shade we created before with approxim
 
 | | Yellow | Magenta | Cyan | Black + Outline |
 | :---: | :---: | :---: | :---: | :---: |
-| Flat shade | ![yellow single pass](images/spider-man/yellow.png) | ![magenta single pass](images/spider-man/magenta-p.png) | ![cyan single pass](images/spider-man/cyan-p.png) | ![black outline](images/spider-man/outline-p.png) |
+| Flat shade | ![yellow single pass](images/spider-man/yellow-off.png) | ![magenta single pass](images/spider-man/magenta-p-off.png) | ![cyan single pass](images/spider-man/cyan-p-off.png) | ![black outline](images/spider-man/outline-p-off.png) |
 | Ben Day Dots | ![yellow single pass](images/spider-man/yellow-d.png) | ![magenta single pass](images/spider-man/magenta-dp.png) | ![cyan single pass](images/spider-man/cyan-dp.png) | ![black single pass](images/spider-man/black-outline-dp.png) |
 
 
@@ -109,7 +109,7 @@ And [compositing](shaders/composite.glsl) them together with the [paper](shaders
   - [x] adjust dot size and space
   - [x] grey shade
   - [x] appropriate screen angles
-  - [ ] misregistration
+  - [x] misregistration
   - [x] yellow is too bright
 - [ ] Write-up
 
