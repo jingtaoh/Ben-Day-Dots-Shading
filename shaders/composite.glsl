@@ -89,28 +89,37 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
   vec3 r = drawSolid(uv, R, DOT_SIZE, 0.0017, 75.);
   vec3 k = drawSolid(uv, K, DOT_SIZE, 0.0017, 45.);
 
+  // Offset for misregistration
+  float offset = 0.004;
+
   vec3 col = texture(iChannel0, uv).rgb;
-  vec4 cmyk = RGBtoCMYK(col);
+  vec3 col_neg_off = texture(iChannel0, uv - vec2(offset)).rgb;
+  vec3 col_pos_off = texture(iChannel0, uv + vec2(offset)).rgb;
+
+  vec4 cmyk_k = RGBtoCMYK(col);
+  vec4 cmyk_b = RGBtoCMYK(col);
+  vec4 cmyk_r = RGBtoCMYK(col_neg_off);
+  vec4 cmyk_y = RGBtoCMYK(col_pos_off);
 
   // Black: divide cyan into 4 levels + outline
-  vec3 col_k = mix(mix(W, k2, step(0.4, cmyk.a)), mix(k3, k, step(0.8, cmyk.a)),
-                   step(0.6, cmyk.a));
-  col_k = outline(fragCoord, iChannel0);
+  vec3 col_k = mix(mix(W, k2, step(0.4, cmyk_k.a)), mix(k3, k, step(0.8, cmyk_k.a)),
+              step(0.6, cmyk_k.a));
+  col_k *= outline(fragCoord, iChannel0);
 
   // Blue: divide cyan into 4 levels
-  vec3 col_b = mix(mix(W, b2, step(0.15, cmyk.r)),
-                   mix(b3, b, step(0.6, cmyk.r)), step(0.3, cmyk.r));
+  vec3 col_b = mix(mix(W, b2, step(0.15, cmyk_b.r)), mix(b3, b, step(0.6, cmyk_b.r)),
+              step(0.3, cmyk_b.r));
 
   // Red: divide magenta into 4 levels
-  vec3 col_r = mix(mix(W, r2, step(0.22, cmyk.g)),
-                   mix(r3, r, step(0.6, cmyk.g)), step(0.44, cmyk.g));
+  vec3 col_r = mix(mix(W, r2, step(0.22, cmyk_r.g)), mix(r3, r, step(0.6, cmyk_r.g)),
+              step(0.44, cmyk_r.g));
 
   // Yellow: divide yellow into 4 levels
-  vec3 col_y = mix(mix(W, y2, step(0.22, cmyk.b)),
-                   mix(y3, y, step(0.6, cmyk.b)), step(0.44, cmyk.b));
+  vec3 col_y = mix(mix(W, y2, step(0.22, cmyk_y.b)), mix(y3, y, step(0.6, cmyk_y.b)),
+              step(0.44, cmyk_y.b));
+
   // Blend
   col = col_y * col_r * col_b * col_k * texture(iChannel1, uv).rgb;
-  col = col_y;
 
   fragColor = vec4(col, 1.);
 }

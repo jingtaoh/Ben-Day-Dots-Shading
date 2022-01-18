@@ -55,6 +55,20 @@ The results is shown below:
 | :---: | :---: | :---: |
 | ![Origianl](images/spider-man/spider-man.png) | ![Flat Shade](images/spider-man/black-p.png) | ![With Outline](images/spider-man/outline-p.png)  |
 
+### Misregistration
+
+One more step before the dots, by far each pass are in perfect alignment. In most comic books, however, different passes weren't always perfectly align with each other, due to misalignment of the printing machine or human mistakes. But it's the way it is, normally, we would treat an alignment with slightly offset as perfect alignment, for example, focus on the hair of the man in the following picture, the yellow shade and magenta are slightly off, but it still looks awesome! 
+
+|<img src="https://legionofandy.files.wordpress.com/2016/06/diary-secrets-13-panel.jpg" alt="Registration" width="600">|
+|:---:|
+|*(Image credit: © [Legion of Andy](https://legionofandy.com/))*|*(Image credit: © [Legion of Andy](https://legionofandy.com/))*|
+
+Thus, by offsetting the UV for each passes, in my case, keeping cyan and black fixed, moving yellow and magenta along the diagonal in the opposite direction, we have "perfect" alignment:
+
+| Flat Shade with Outline | Misregistration |
+| :---: | :---: |
+ ![Flat Shade with outline](images/spider-man/outline-p.png) | ![Misregistration](images/spider-man/outline-p-offset.png)  |
+
 ### Shade with Ben-Day Dots
 
 By vertically and horizontally repeating dots (small circles) on canvas and varying their spacing we can approximate the [shade (called screen)](shaders/screen.glsl) that we want:
@@ -92,10 +106,10 @@ And [compositing](shaders/composite.glsl) them together with the [paper](shaders
 ## TODOs
 - [ ] Polish thoughts
   - [x] better flat shading
-  - [ ] adjust dot size and space
+  - [x] adjust dot size and space
   - [x] grey shade
   - [x] appropriate screen angles
-  - [ ] misregister
+  - [ ] misregistration
   - [x] yellow is too bright
 - [ ] Write-up
 
