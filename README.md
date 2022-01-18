@@ -154,7 +154,7 @@ And [compositing](shaders/composite.glsl) them together with the [paper](shaders
   // Blend 4 passes
   col = col_y * col_r * col_b * col_k;
   // Blend with paper texture
-  col * texture(iChannel1, uv).rgb;
+  col *= texture(iChannel1, uv).rgb;
 ```
 
 | Original | Ben Day Dots | With Outline |
@@ -170,6 +170,8 @@ And [compositing](shaders/composite.glsl) them together with the [paper](shaders
   - [x] misregistration
   - [x] yellow is too bright
 - [x] Write-up
+- [x] Video
+- [ ] Post
 
 ## Conclusion
 

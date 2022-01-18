@@ -121,7 +121,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
   // Blend 4 passes
   col = col_y * col_r * col_b * col_k;
   // Blend with paper texture
-  col * texture(iChannel1, uv).rgb;
+  col *= texture(iChannel1, uv).rgb;
 
   fragColor = vec4(col, 1.);
 }
