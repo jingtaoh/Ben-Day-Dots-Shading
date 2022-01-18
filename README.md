@@ -161,18 +161,6 @@ And [compositing](shaders/composite.glsl) them together with the [paper](shaders
 | :---: | :---: | :---: |
 | ![Origianl](images/spider-man/spider-man.png) | ![Ben Day Dots](images/spider-man/spider-man-dots.png) | ![With Outline](images/spider-man/spider-man-paper-outline.png)  |
 
-## TODOs
-- [x] Polish thoughts
-  - [x] better flat shading
-  - [x] adjust dot size and space
-  - [x] grey shade
-  - [x] appropriate screen angles
-  - [x] misregistration
-  - [x] yellow is too bright
-- [x] Write-up
-- [x] Video
-- [ ] Post
-
 ## Conclusion
 
 I recently started to play with [shadertoy](https://www.shadertoy.com/), so this is my first attempt to shade something using only fragment shaders. It's very fun, and I find it satisfying to replace `if-else` statement with `mix` and `step` functions in the process. I would like to thank [Legion of Andy](https://legionofandy.com/) for his articles describing the technique in great length, he proves once again art and technology always find a way to work together and influence one another, which is why I love graphics programming so much. Till next project :)
