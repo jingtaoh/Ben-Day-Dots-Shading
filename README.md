@@ -39,7 +39,29 @@ First, I pick an image (from [PlayStation](https://www.playstation.com/en-us/gam
 |:---:|
 |*(Image credit: © [PlayStation](https://www.playstation.com/en-us/games/marvels-spider-man/))*|
 
-To shade it with Ben Day Dots later, one need to decide which part of the image need to be included for each color pass, thus the first step of the program need to separate the CMYK components of the image, which I call [color separation](shaders/separate.glsl). The basic idea is to convert the color from RGB space to CMYK space, then based on the value of each channel, we divide the continuous value into 3 discrete shades (light, dark, and solid). 
+To shade it with Ben Day Dots later, one need to decide which part of the image need to be included for each color pass, thus the first step of the program need to separate the CMYK components of the image, which I call [color separation](shaders/separate.glsl). The basic idea is to convert the color from RGB space to CMYK space, then based on the value of each channel, we divide the continuous value into 4 discrete shades (none, light, dark, and solid). 
+
+```glsl
+  // Black: divide black into 4 levels + outline
+  vec3 col_k = mix(mix(W, K2, step(0.4, cmyk_k.a)),
+                   mix(K3, K, step(0.8, cmyk_k.a)), step(0.6, cmyk_k.a));
+  col_k *= outline(fragCoord, iChannel0);
+
+  // Blue: divide cyan into 4 levels
+  vec3 col_b = mix(mix(W, B2, step(0.15, cmyk_b.r)),
+                   mix(B3, B, step(0.6, cmyk_b.r)), step(0.3, cmyk_b.r));
+
+  // Red: divide magenta into 4 levels
+  vec3 col_r = mix(mix(W, R2, step(0.22, cmyk_r.g)),
+                   mix(R3, R, step(0.6, cmyk_r.g)), step(0.44, cmyk_r.g));
+
+  // Yellow: divide yellow into 4 levels
+  vec3 col_y = mix(mix(W, Y2, step(0.22, cmyk_y.b)),
+                   mix(Y3, Y, step(0.6, cmyk_y.b)), step(0.44, cmyk_y.b));
+
+  // Blend
+  col = col_y * col_r * col_b * col_k;
+```
 
 | | Yellow | Magenta | Cyan | Black | Outline |
 | :---: | :---: | :---: | :---: | :---: | :---: |
@@ -65,6 +87,15 @@ One more step before the dots, by far each pass are in perfect alignment. In mos
 
 Thus, by offsetting the UV for each passes, in my case, keeping cyan and black fixed, moving yellow and magenta along the diagonal in the opposite direction, we now have "perfect" alignment:
 
+```glsl
+  // Offset for misregistration
+  const float offset = 0.004;
+
+  vec3 col = texture(iChannel0, uv).rgb;
+  vec3 col_neg_off = texture(iChannel0, uv - vec2(offset)).rgb;
+  vec3 col_pos_off = texture(iChannel0, uv + vec2(offset)).rgb;
+```
+
 | Original | Flat Shade with Outline | Misregistration |
 | :---: | :---: | :---: |
 | ![Origianl](images/spider-man/spider-man.png) | ![Flat Shade with outline](images/spider-man/outline-p.png) | ![Misregistration](images/spider-man/outline-p-off.png)  |
@@ -72,6 +103,26 @@ Thus, by offsetting the UV for each passes, in my case, keeping cyan and black f
 ### Shade with Ben-Day Dots
 
 By vertically and horizontally repeating dots (small circles) on canvas and varying their spacing we can approximate the [shade (called screen)](shaders/screen.glsl) that we want:
+
+```glsl
+  // light colors
+  vec3 b2 = drawDots(uv, B, DOT_SIZE, vec2(0.004), 135.);
+  vec3 r2 = drawDots(uv, R, DOT_SIZE, vec2(0.004), 75.);
+  vec3 y2 = drawDots(uv, Y, DOT_SIZE, vec2(0.004), 105.);
+  vec3 k2 = drawDots(uv, K, DOT_SIZE, vec2(0.004), 45.);
+
+  // dark colors
+  vec3 b3 = drawLines(uv, B, DOT_SIZE, vec2(0.0017, 0.004), 135.);
+  vec3 r3 = drawLines(uv, R, DOT_SIZE, vec2(0.0017, 0.004), 75.);
+  vec3 y3 = drawLines(uv, Y, DOT_SIZE, vec2(0.0017, 0.004), 105.);
+  vec3 k3 = drawLines(uv, K, DOT_SIZE, vec2(0.0017, 0.004), 45.);
+
+  // solid colors
+  vec3 b = drawSolid(uv, B, DOT_SIZE, 0.0017, 135.);
+  vec3 r = drawSolid(uv, R, DOT_SIZE, 0.0017, 75.);
+  vec3 y = drawSolid(uv, Y, DOT_SIZE, 0.0017, 105.);
+  vec3 k = drawSolid(uv, K, DOT_SIZE, 0.0017, 45.);
+```
 
 |![Color board](images/screens/color_board.png)|
 |:---:|
@@ -85,8 +136,8 @@ Without enforcing anti-aliasing, the dots we draw actaully looks like the dots p
 
 But most of the examples from real comics used the following angles, so I use these instead.
 - Cyan - 135 degrees
-- Yellow - 105 degrees
 - Magenta - 75 degrees
+- Yellow - 105 degrees
 - Black - 45 degrees
 
 Without further ado, by replacing the flat shade we created before with approximate shade using dots:
@@ -98,6 +149,13 @@ Without further ado, by replacing the flat shade we created before with approxim
 
 
 And [compositing](shaders/composite.glsl) them together with the [paper](shaders/paper.glsl) texture, we have our comic effect:
+
+```glsl
+  // Blend 4 passes
+  col = col_y * col_r * col_b * col_k;
+  // Blend with paper texture
+  col * texture(iChannel1, uv).rgb;
+```
 
 | Original | Ben Day Dots | With Outline |
 | :---: | :---: | :---: |
@@ -111,15 +169,13 @@ And [compositing](shaders/composite.glsl) them together with the [paper](shaders
   - [x] appropriate screen angles
   - [x] misregistration
   - [x] yellow is too bright
-- [ ] Write-up
+- [x] Write-up
 
 ## Conclusion
 
 I recently started to play with [shadertoy](https://www.shadertoy.com/), so this is my first attempt to shade something using only fragment shaders. It's very fun, and I find it satisfying to replace `if-else` statement with `mix` and `step` functions in the process. I would like to thank [Legion of Andy](https://legionofandy.com/) for his articles describing the technique in great length, he proves once again art and technology always find a way to work together and influence one another, which is why I love graphics programming so much. Till next project :)
 
-|![](images/spider-man/compare.png)|
-|:---:|
-|*(Image credit: © Marvel)*|
+![compare](images/spider-man/compare.png)
 
 ## References
 - [BEN DAY DOTS Series](https://legionofandy.com/2013/06/03/roy-lichtenstein-the-man-who-didnt-paint-benday-dots/): A series of wonderful articles by [Legion of Andy](https://legionofandy.com/) introducing the history and usage of Ben Day Dots.

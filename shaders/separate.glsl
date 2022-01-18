@@ -46,7 +46,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
       fragCoord / iResolution.xy; // Normalized pixel coordinates (from 0 to 1)
 
   // Offset for misregistration
-  float offset = 0.004;
+  const float offset = 0.004;
 
   vec3 col = texture(iChannel0, uv).rgb;
   vec3 col_neg_off = texture(iChannel0, uv - vec2(offset)).rgb;
@@ -57,7 +57,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
   vec4 cmyk_r = RGBtoCMYK(col_neg_off);
   vec4 cmyk_y = RGBtoCMYK(col_pos_off);
 
-  // Black: divide cyan into 4 levels + outline
+  // Black: divide black into 4 levels + outline
   vec3 col_k = mix(mix(W, K2, step(0.4, cmyk_k.a)),
                    mix(K3, K, step(0.8, cmyk_k.a)), step(0.6, cmyk_k.a));
   col_k *= outline(fragCoord, iChannel0);
