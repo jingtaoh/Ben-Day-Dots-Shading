@@ -83,7 +83,7 @@ One more step before the dots, by far each pass are in perfect alignment. In mos
 
 |<img src="https://legionofandy.files.wordpress.com/2016/06/diary-secrets-13-panel.jpg" alt="Registration" width="600">|
 |:---:|
-|*(Image credit: © [Legion of Andy](https://legionofandy.com/))*|*(Image credit: © [Legion of Andy](https://legionofandy.com/))*|
+|*(Image credit: © [Legion of Andy](https://legionofandy.com/))*|
 
 Thus, by offsetting the UV for each passes, in my case, keeping cyan and black fixed, moving yellow and magenta along the diagonal in the opposite direction, we now have "perfect" alignment:
 
@@ -132,7 +132,7 @@ Without enforcing anti-aliasing, the dots we draw actaully looks like the dots p
 
 |<img src="https://legionofandy.files.wordpress.com/2016/08/screen-angles.jpg" alt="screen angles" width="400">|
 |:---:|
-|*(Image credit: © [Legion of Andy](https://legionofandy.com/))*|*(Image credit: © [Legion of Andy](https://legionofandy.com/))*|
+|*(Image credit: © [Legion of Andy](https://legionofandy.com/))*|
 
 But most of the examples from real comics used the following angles, so I use these instead.
 - Cyan - 135 degrees
