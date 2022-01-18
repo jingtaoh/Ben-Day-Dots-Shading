@@ -161,6 +161,28 @@ And [compositing](shaders/composite.glsl) them together with the [paper](shaders
 | :---: | :---: | :---: |
 | ![Origianl](images/spider-man/spider-man.png) | ![Ben Day Dots](images/spider-man/spider-man-dots.png) | ![With Outline](images/spider-man/spider-man-paper-outline.png)  |
 
+## Run the code
+
+### Shader Toy
+
+You could run the code at [shader toy](https://www.shadertoy.com/view/sdlyRf).
+
+### Visual Studio Code
+
+Or you could clone the repository and run it using VSCode:
+1. Clone the repository
+    ```bash
+    git clone https://github.com/jingtaoh/Ben-Day-Dots-Shading.git
+    ```
+2. Install [Visual Studio Code](https://code.visualstudio.com/)
+3. Open the code folder from VSCode
+    ```bash
+    cd Ben-Day-Dots-Shading
+    code .
+    ```
+4. Install [Shader Toy](https://marketplace.visualstudio.com/items?itemName=stevensona.shader-toy#:~:text=To%20run%20the%20command%2C%20either,Preview%22%20from%20the%20context%20menu.) and [Shader languages support for VS Code](https://marketplace.visualstudio.com/items?itemName=slevesque.shader) plugins
+5. Open [`shader/composite.glsl`](shaders/composite.glsl) file, right click on the panel, and choose `Shader Toy: Show GLSL Preview` to see the result
+
 ## Conclusion
 
 I recently started to play with [shadertoy](https://www.shadertoy.com/), so this is my first attempt to shade something using only fragment shaders. It's very fun, and I find it satisfying to replace `if-else` statement with `mix` and `step` functions in the process. I would like to thank [Legion of Andy](https://legionofandy.com/) for his articles describing the technique in great length, he proves once again art and technology always find a way to work together and influence one another, which is why I love graphics programming so much. Till next project :)
