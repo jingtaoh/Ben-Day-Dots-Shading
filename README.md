@@ -181,7 +181,7 @@ Or you could clone the repository and run it using VSCode:
     code .
     ```
 4. Install [Shader Toy](https://marketplace.visualstudio.com/items?itemName=stevensona.shader-toy) and [Shader languages support for VS Code](https://marketplace.visualstudio.com/items?itemName=slevesque.shader) plugins
-5. Open [`shader/composite.glsl`](shaders/composite.glsl) file, right click on the panel, and choose `Shader Toy: Show GLSL Preview` to see the result
+5. Open [`shaders/composite.glsl`](shaders/composite.glsl) file, right click on the panel, and choose `Shader Toy: Show GLSL Preview` to see the result
 6. Optionally, you could change the input texture by changing the [first two lines of the code](https://github.com/jingtaoh/Ben-Day-Dots-Shading/blob/27d8fc08fb0110cdb04fa8447a90b0d7fbca31f6/shaders/composite.glsl#L1-L2) to something else, such as
    ```glsl
    #iChannel0 "file://duck.png"
