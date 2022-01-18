@@ -165,7 +165,7 @@ And [compositing](shaders/composite.glsl) them together with the [paper](shaders
 
 ### Shader Toy
 
-You could run the code at [shader toy](https://www.shadertoy.com/view/sdlyRf).
+You could run the code at [shader toy](https://www.shadertoy.com/view/sdlyRf), optionally you could change the input texture from the default video to webcam video under "misc" or custum texture following the first comment of this [shader](https://www.shadertoy.com/view/lsGGDd).
 
 ### Visual Studio Code
 
@@ -180,8 +180,13 @@ Or you could clone the repository and run it using VSCode:
     cd Ben-Day-Dots-Shading
     code .
     ```
-4. Install [Shader Toy](https://marketplace.visualstudio.com/items?itemName=stevensona.shader-toy#:~:text=To%20run%20the%20command%2C%20either,Preview%22%20from%20the%20context%20menu.) and [Shader languages support for VS Code](https://marketplace.visualstudio.com/items?itemName=slevesque.shader) plugins
+4. Install [Shader Toy](https://marketplace.visualstudio.com/items?itemName=stevensona.shader-toy) and [Shader languages support for VS Code](https://marketplace.visualstudio.com/items?itemName=slevesque.shader) plugins
 5. Open [`shader/composite.glsl`](shaders/composite.glsl) file, right click on the panel, and choose `Shader Toy: Show GLSL Preview` to see the result
+6. Optionally, you could change the input texture by changing the [first two lines of the code](https://github.com/jingtaoh/Ben-Day-Dots-Shading/blob/27d8fc08fb0110cdb04fa8447a90b0d7fbca31f6/shaders/composite.glsl#L1-L2) to something else, such as
+   ```glsl
+   #iChannel0 "file://duck.png"
+   #iChannel1 "https://66.media.tumblr.com/tumblr_mcmeonhR1e1ridypxo1_500.jpg"
+   ```
 
 ## Conclusion
 
