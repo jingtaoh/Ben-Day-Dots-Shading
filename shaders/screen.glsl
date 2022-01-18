@@ -56,16 +56,16 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
   vec2 uv = fragCoord / iResolution.xy;
 
   // light colors
-  vec3 y2 = drawDots(uv, Y, DOT_SIZE, vec2(0.0034), 105.);
-  vec3 b2 = drawDots(uv, B, DOT_SIZE, vec2(0.0034), 135.);
-  vec3 r2 = drawDots(uv, R, DOT_SIZE, vec2(0.0034), 75.);
-  vec3 k2 = drawDots(uv, K, DOT_SIZE, vec2(0.0034), 45.);
+  vec3 y2 = drawDots(uv, Y, DOT_SIZE, vec2(0.004), 105.);
+  vec3 b2 = drawDots(uv, B, DOT_SIZE, vec2(0.004), 135.);
+  vec3 r2 = drawDots(uv, R, DOT_SIZE, vec2(0.004), 75.);
+  vec3 k2 = drawDots(uv, K, DOT_SIZE, vec2(0.004), 45.);
 
   // dark colors
-  vec3 y3 = drawLines(uv, Y, DOT_SIZE, vec2(0.0017, 0.0034), 105.);
-  vec3 b3 = drawLines(uv, B, DOT_SIZE, vec2(0.0017, 0.0034), 135.);
-  vec3 r3 = drawLines(uv, R, DOT_SIZE, vec2(0.0017, 0.0034), 75.);
-  vec3 k3 = drawLines(uv, K, DOT_SIZE, vec2(0.0017, 0.0034), 45.);
+  vec3 y3 = drawLines(uv, Y, DOT_SIZE, vec2(0.0017, 0.004), 105.);
+  vec3 b3 = drawLines(uv, B, DOT_SIZE, vec2(0.0017, 0.004), 135.);
+  vec3 r3 = drawLines(uv, R, DOT_SIZE, vec2(0.0017, 0.004), 75.);
+  vec3 k3 = drawLines(uv, K, DOT_SIZE, vec2(0.0017, 0.004), 45.);
 
   // solid colors
   vec3 y = drawSolid(uv, Y, DOT_SIZE, 0.0017, 105.);

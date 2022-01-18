@@ -104,7 +104,7 @@ And [compositing](shaders/composite.glsl) them together with the [paper](shaders
 | ![Origianl](images/spider-man/spider-man.png) | ![Ben Day Dots](images/spider-man/spider-man-dots.png) | ![With Outline](images/spider-man/spider-man-paper-outline.png)  |
 
 ## TODOs
-- [ ] Polish thoughts
+- [x] Polish thoughts
   - [x] better flat shading
   - [x] adjust dot size and space
   - [x] grey shade

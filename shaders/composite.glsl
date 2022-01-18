@@ -72,16 +72,16 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
       fragCoord / iResolution.xy; // Normalized pixel coordinates (from 0 to 1)
 
   // light colors
-  vec3 y2 = drawDots(uv, Y, DOT_SIZE, vec2(0.0034), 105.);
-  vec3 b2 = drawDots(uv, B, DOT_SIZE, vec2(0.0034), 135.);
-  vec3 r2 = drawDots(uv, R, DOT_SIZE, vec2(0.0034), 75.);
-  vec3 k2 = drawDots(uv, K, DOT_SIZE, vec2(0.0034), 45.);
+  vec3 y2 = drawDots(uv, Y, DOT_SIZE, vec2(0.004), 105.);
+  vec3 b2 = drawDots(uv, B, DOT_SIZE, vec2(0.004), 135.);
+  vec3 r2 = drawDots(uv, R, DOT_SIZE, vec2(0.004), 75.);
+  vec3 k2 = drawDots(uv, K, DOT_SIZE, vec2(0.004), 45.);
 
   // dark colors
-  vec3 y3 = drawLines(uv, Y, DOT_SIZE, vec2(0.0017, 0.0034), 105.);
-  vec3 b3 = drawLines(uv, B, DOT_SIZE, vec2(0.0017, 0.0034), 135.);
-  vec3 r3 = drawLines(uv, R, DOT_SIZE, vec2(0.0017, 0.0034), 75.);
-  vec3 k3 = drawLines(uv, K, DOT_SIZE, vec2(0.0017, 0.0034), 45.);
+  vec3 y3 = drawLines(uv, Y, DOT_SIZE, vec2(0.0017, 0.004), 105.);
+  vec3 b3 = drawLines(uv, B, DOT_SIZE, vec2(0.0017, 0.004), 135.);
+  vec3 r3 = drawLines(uv, R, DOT_SIZE, vec2(0.0017, 0.004), 75.);
+  vec3 k3 = drawLines(uv, K, DOT_SIZE, vec2(0.0017, 0.004), 45.);
 
   // solid colors
   vec3 y = drawSolid(uv, Y, DOT_SIZE, 0.0017, 105.);
@@ -102,24 +102,26 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
   vec4 cmyk_y = RGBtoCMYK(col_pos_off);
 
   // Black: divide cyan into 4 levels + outline
-  vec3 col_k = mix(mix(W, k2, step(0.4, cmyk_k.a)), mix(k3, k, step(0.8, cmyk_k.a)),
-              step(0.6, cmyk_k.a));
+  vec3 col_k = mix(mix(W, k2, step(0.4, cmyk_k.a)),
+                   mix(k3, k, step(0.8, cmyk_k.a)), step(0.6, cmyk_k.a));
   col_k *= outline(fragCoord, iChannel0);
 
   // Blue: divide cyan into 4 levels
-  vec3 col_b = mix(mix(W, b2, step(0.15, cmyk_b.r)), mix(b3, b, step(0.6, cmyk_b.r)),
-              step(0.3, cmyk_b.r));
+  vec3 col_b = mix(mix(W, b2, step(0.15, cmyk_b.r)),
+                   mix(b3, b, step(0.6, cmyk_b.r)), step(0.3, cmyk_b.r));
 
   // Red: divide magenta into 4 levels
-  vec3 col_r = mix(mix(W, r2, step(0.22, cmyk_r.g)), mix(r3, r, step(0.6, cmyk_r.g)),
-              step(0.44, cmyk_r.g));
+  vec3 col_r = mix(mix(W, r2, step(0.22, cmyk_r.g)),
+                   mix(r3, r, step(0.6, cmyk_r.g)), step(0.44, cmyk_r.g));
 
   // Yellow: divide yellow into 4 levels
-  vec3 col_y = mix(mix(W, y2, step(0.22, cmyk_y.b)), mix(y3, y, step(0.6, cmyk_y.b)),
-              step(0.44, cmyk_y.b));
+  vec3 col_y = mix(mix(W, y2, step(0.22, cmyk_y.b)),
+                   mix(y3, y, step(0.6, cmyk_y.b)), step(0.44, cmyk_y.b));
 
   // Blend
-  col = col_y * col_r * col_b * col_k * texture(iChannel1, uv).rgb;
+  // col = col_y * col_r * col_b * col_k * texture(iChannel1, uv).rgb;
+  col = mix(col, col_y * col_r * col_b * col_k * texture(iChannel1, uv).rgb, step(0.5, uv.x));
+  // col = col_y * col_r * col_b * col_k * texture(iChannel1, uv).rgb;
 
   fragColor = vec4(col, 1.);
 }
